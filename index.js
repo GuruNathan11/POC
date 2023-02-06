@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended : true}));
 app.use(bodyParser.json())
 app.use(express.json());
 
-const mongo = mongoose.connect(mongodb.url);
+const mongo = mongoose.connect(mongodb.MONGO_URI);
 mongo.then(() =>{
     console.log('Mongo_DB Connected Successfully')
 }, error =>{
