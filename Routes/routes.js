@@ -47,7 +47,6 @@ router.post('/signin',(req,res) => {
     
     })
 
-
 var Controller = require('../Controller/Controller.js');
 
 router.route('/users')
