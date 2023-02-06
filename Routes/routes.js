@@ -20,23 +20,22 @@ router.post('/signin',(req,res) => {
                 message : "The given User cannot be found."
             })
         }
-        else {
+         else {
+            var cryptr = new Cryptr('Guru');
+            var enc = cryptr.encrypt(req.body.password);
             var dec = cryptr.decrypt(user.password);
             if (req.body.password === dec) {
                 return res.status(201).send({
-                    message : "Signin Successfully"
+                    message : "Signin Successfully",
+                    data: {
+                        userName  : req.body.userName,
+                        email     : req.body.email,
+                        mobile    : req.body.mobile,
+                        password  : enc
+                    }
+                    
                 })
             }
-            else {
-                return res.status(400).send({
-                    message : "Password incorrect"
-                });
-            }
-        }
-    })
-    
-    })
-
 
 var Controller = require('../Controller/Controller.js');
 
