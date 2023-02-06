@@ -20,7 +20,7 @@ router.post('/signin',(req,res) => {
                 message : "The given User cannot be found."
             })
         }
-         else {
+        else {
             var cryptr = new Cryptr('Guru');
             var enc = cryptr.encrypt(req.body.password);
             var dec = cryptr.decrypt(user.password);
@@ -36,6 +36,16 @@ router.post('/signin',(req,res) => {
                     
                 })
             }
+            else {
+                return res.status(400).send({
+                    message : "Password incorrect"
+                });
+            }
+        }
+    })
+    
+    })
+
 
 var Controller = require('../Controller/Controller.js');
 
