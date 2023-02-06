@@ -1,6 +1,5 @@
 const Cryptr = require('cryptr');
 // const { use } = require('../Routes/routes');
-const emailValidator = require('email-Validator')
 
 user_Signup = require('../Model/Models.js');
 
