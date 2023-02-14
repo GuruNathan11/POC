@@ -2,7 +2,6 @@ let router = require('express').Router();
 const Cryptr = require('cryptr');
 var cryptr = new Cryptr("Guru")
 
-
 router.get('/',function(req,res){
     res.json({
         status : 'API Works',
@@ -21,39 +20,78 @@ router.post('/signin',(req,res) => {
             })
         }
         else {
-            var cryptr = new Cryptr('Guru');
+            // var dec = cryptr.decrypt(user.password);
+            // console.log(req.body.password);
+            // console.log(user.password);
             var enc = cryptr.encrypt(req.body.password);
-            var dec = cryptr.decrypt(enc);
-            if (req.body.password === dec) {
+             var dec = cryptr.decrypt(enc);
+            
+            if (req.body.password === user.password) {
                 return res.status(201).send({
                     message : "Signin Successfully",
                     data: {
+                        firstName : req.body.firstName,
+                        lastName  : req.body.lastName,
                         userName  : req.body.userName,
                         email     : req.body.email,
                         mobile    : req.body.mobile,
                         password  : enc
                     }
-                    
                 })
             }
-            
             else {
                 return res.status(400).send({
                     message : "Password incorrect"
                 });
             }
         }
-    })
+    })    
+});
+const emailCount = require('../Model/Models');
+
+    router.post('/signup',async (req,callback) => {
+        var cryptr = new Cryptr('Guru');
+        var enc = cryptr.encrypt(req.body.password);
+        var dec = cryptr.decrypt(enc);
     
-    })
+        var user = new user_Signup();
+        user.firstName = req.body.firstName;
+        user.lastName  = req.body.lastName;
+        user.userName  = req.body.userName;
+        user.email     = req.body.email;
+        user.mobile    = req.body.mobile;
+        user.password  = dec;
+        mobile = user.mobile
+       await user.save(function (err) {              
+                if(err)        
+                    callback.json("User already signup by using this Email")    
+                //  else {
+                //     if(mobile.toString().length!=10){
+                //         callback.json("User mobile invalid")                 
+                //     }
+                else {                    
+                callback.json({
+                message : "*** New user signup ***",
+                 data: {
+                    firstName : req.body.firstName,
+                    lastName  : req.body.lastName,
+                    userName  : req.body.userName,
+                    email     : req.body.email,
+                    mobile    : req.body.mobile,
+                    password  : enc
+                }
+                })            
+            }
+            // }
+        })       
+        }) 
 
 var Controller = require('../Controller/Controller.js');
-
 router.route('/users')
 .get(Controller.index)
 
-router.route('/signup')
-      .post(Controller.add);
+// router.route('/signup')
+//       .post(Controller.add);
 
 router.route('/users/:email')
 .get(Controller.view)
