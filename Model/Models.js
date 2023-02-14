@@ -13,13 +13,16 @@ var Schema = mongoose.Schema({
         required : true,
         type    : String
     },
-    email : {
+    email: {
+        type: String,
         required : true,
-        type    : String
-    },
+        unique : true
+      },
+
     mobile : {
         required : true,
-        type    : Number
+        type    : Number,
+        length :10
     },
     password : {
         required : true,
@@ -30,8 +33,13 @@ var Schema = mongoose.Schema({
         default : Date.now
     }
 });
+Schema.path('email').validate(async (email) =>{
+  const emailCount = await mongoose.models.list.countDocuments({ email })
+  return !emailCount
+},'Email already exists');
 
-var user_Signup = module.exports = mongoose.model('User_1',Schema);
+  
+var user_Signup = module.exports = mongoose.model('list',Schema);
 module.exports.get = function(callback, limit) {
     user_Signup.find(callback).limit(limit);
 };
