@@ -19,38 +19,6 @@ exports.Dao_index = function(req,callback)
     });
 };
 
-exports.Dao_add = function(req,callback)
-{
-    var cryptr = new Cryptr('Guru');
-    var enc = cryptr.encrypt(req.body.password);
-    var dec = cryptr.decrypt(enc);
-
-    var user = new user_Signup();
-    user.firstName = req.body.firstName;
-    user.lastName  = req.body.lastName;
-    user.userName  = req.body.userName;
-    user.email     = req.body.email;
-    user.mobile    = req.body.mobile;
-    user.password  = enc;
-
-    user.save(function (err) {
-        if(err)
-            callback.json(err);
-
-         callback.json({
-            message : "*** New user signup ***",
-            data: {
-                firstName : req.body.firstName,
-                lastName  : req.body.lastName,
-                userName  : req.body.userName,
-                email     : req.body.email,
-                mobile    : req.body.mobile,
-                password  : enc
-            }
-        });
-    });
-};
-
 exports.Dao_view = function (req,callback) 
 
 {
@@ -76,9 +44,9 @@ exports.Dao_update = function (req,callback)
     var dec = cryptr.decrypt(enc);
         if (err)
         callback.send(err);
-        user.firstName = req.body.firstName,
-        user.lastName  = req.body.lastName,
-        user.userName  = req.body.userName,
+        user.fName = req.body.fName,
+        user.lName  = req.body.lName,
+        user.userType  = req.body.userType,
         user.email     = req.body.email,
         user.mobile    = req.body.mobile,
         user.password  = enc;
@@ -107,31 +75,3 @@ exports.Dao_Delete = function (req,callback)
         });
     });
 };
-const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            title:'UserDetails',
-            version:'1.0.0'
-        }
-    },
-    apis : ['./Dao/Dao.js'],
-    // apis : ['index.js','../Dao/Dao.js','../Config/MongoConfig','../Routes/routes.js','../Service/Service.js','Controller/Controller.js'],
-};
-const express = require('express')
-app = express()
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUI = require('swagger-ui-express');
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-// console.log(swaggerDocs);
-app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerDocs));
-
-/**
- * @swagger
- * /api:
- *   get:
- *      description: Get all Users
- *      responses:
- *      200:
- *          description: Success
- * 
- */
