@@ -60,7 +60,7 @@ const emailCount = require('../Model/Models');
         user.userName  = req.body.userName;
         user.email     = req.body.email;
         user.mobile    = req.body.mobile;
-        user.password  = dec;
+        user.password  = enc;
         mobile = user.mobile
        await user.save(function (err) {              
                 if(err)        
