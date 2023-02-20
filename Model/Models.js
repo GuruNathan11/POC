@@ -2,15 +2,15 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema({
     firstName : {
-        required : false,
+        required : true,
         type     : String
     },
     lastName : {
-        required : false,
+        required : true,
         type    : String
     },
     userName : {
-        required : true,
+        required : false,
         type    : String
     },
     email: {
