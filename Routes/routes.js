@@ -12,7 +12,7 @@ router.get('/',function(req,res){
 const user_Signup = require('../Model/Models');
 
 router.post('/signin',(req,res) => {
-    user_Signup.findOne({ email : req.body.email },async function(err,user){
+    user_Signup.findOne({ email : req.body.email }, function(err,user){
       
         if (user === null) {
             return res.status(400).send({
@@ -25,7 +25,7 @@ router.post('/signin',(req,res) => {
             console.log(user.password);
             var enc = cryptr.encrypt(req.body.password);
             //  var dec = cryptr.decrypt(enc);
-          await   user.save(function (err){
+            user.save(function (err){
             if (req.body.password === dec) {
                 return res.status(201).send({
                     message : "Signin Successfully",
