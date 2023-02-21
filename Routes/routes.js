@@ -12,20 +12,20 @@ router.get('/',function(req,res){
 const user_Signup = require('../Model/Models');
 
 router.post('/signin',(req,res) => {
-    user_Signup.findOne({ email : req.body.email }, function(err,user){
-      
+    user_Signup.findOne({ email : req.body.email }, async function(err,user){
+        
         if (user === null) {
             return res.status(400).send({
                 message : "The given User cannot be found."
             })
         }
-         else {
+        else {
             var dec = cryptr.decrypt(user.password);
             console.log(req.body.password);
             console.log(user.password);
             var enc = cryptr.encrypt(req.body.password);
             //  var dec = cryptr.decrypt(enc);
-            user.save(function (err){
+          await   user.save(function (err){
             if (req.body.password === dec) {
                 return res.status(201).send({
                     message : "Signin Successfully",
@@ -44,8 +44,11 @@ router.post('/signin',(req,res) => {
                     message : "Password incorrect"
                 });
             }
+        })
         }
+        
     })    
+    
 });
 const emailCount = require('../Model/Models');
 
@@ -66,9 +69,9 @@ const emailCount = require('../Model/Models');
                 if(err)        
                     callback.json("User already signup by using this Email")    
                 //  else {
-                //     if(mobile.toString().length!=10){
-                //         callback.json("User mobile invalid")                 
-                //     }
+                    // if(mobile.toString().length!=10){
+                    //     callback.json("User mobile invalid")                 
+                    // }
                 else {                    
                 callback.json({
                 message : "*** New user signup ***",
