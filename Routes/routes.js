@@ -12,7 +12,7 @@ router.get('/',function(req,res){
 const user_Signup = require('../Model/Models');
 
 router.post('/signin',(req,res) => {
-    user_Signup.findOne({ email : req.body.email }, function(err,user){
+    user_Signup.findOne({ email : req.body.email },async function(err,user){
       
         if (user === null) {
             return res.status(400).send({
