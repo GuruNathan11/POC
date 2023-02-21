@@ -20,13 +20,13 @@ router.post('/signin',(req,res) => {
             })
         }
         else {
-            // var dec = cryptr.decrypt(user.password);
-            // console.log(req.body.password);
-            // console.log(user.password);
+            var dec = cryptr.decrypt(user.password);
+            console.log(req.body.password);
+            console.log(user.password);
             var enc = cryptr.encrypt(req.body.password);
              var dec = cryptr.decrypt(enc);
             
-            if (req.body.password === user.password) {
+            if (req.body.password === dec) {
                 return res.status(201).send({
                     message : "Signin Successfully",
                     data: {
