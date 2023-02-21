@@ -19,11 +19,13 @@ router.post('/signin',(req,res) => {
                 message : "The given User cannot be found."
             })
         }
-        else {
+         else {
             var dec = cryptr.decrypt(user.password);
+            console.log(req.body.password);
+            console.log(user.password);
             var enc = cryptr.encrypt(req.body.password);
-            
-            
+            //  var dec = cryptr.decrypt(enc);
+          await   user.save(function (err){
             if (req.body.password === dec) {
                 return res.status(201).send({
                     message : "Signin Successfully",
